@@ -11,19 +11,23 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <script src="https://js.paystack.co/v1/inline.js"></script>
         <script src="//unpkg.com/alpinejs" defer></script>
         <script src="https://unpkg.com/feather-icons"></script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-zinc-100">
+    <body class="font-sans antialiased">
 
         @include('layouts.navbar')
 
         <main>
-            {{ $slot }}
+            <div class="max-w-6xl mx-auto mt-16">
+                {{ $slot }}
+            </div>
         </main>
+
 
         <script>
             feather.replace();

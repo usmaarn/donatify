@@ -15,11 +15,11 @@ use App\Livewire\Dashboard;
 */
 
 Route::get('/', \App\Livewire\Home::class)->name('home');
+Route::get('/donations', \App\Livewire\Donation\Index::class)->name('donations.all');
 
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', Dashboard::class)->name('dashboard');
     Route::get('/donations/create', \App\Livewire\Donation\Create::class)->name('donations.create');
-    Route::get('/donations', \App\Livewire\Donation\Index::class)->name('donations.all');
 
     Route::post('/logout', function (\Illuminate\Http\Request $request) {
         Auth::logout();
@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function () {
         return redirect('/');
     })->name('logout');
 });
+
+Route::get('/donations/{donation:id}', \App\Livewire\Donation\Show::class)->name('donations.show');
+Route::get('/donations/{donation:id}/donate', \App\Livewire\Donation\Donate::class)->name('donations.donate');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

@@ -38,7 +38,7 @@ class Create extends Component
 
         $donation->save();
 
-        return $this->redirect(route('donations.all'));
+        return redirect(route('donations.all'));
     }
 
     public function render()

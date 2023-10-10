@@ -10,4 +10,13 @@ class Donation extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function thumbnail(){
+        return '/' . str_replace('public', 'storage', $this->thumbnail);
+    }
 }

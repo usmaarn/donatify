@@ -8,12 +8,26 @@ use Livewire\Component;
 class Index extends Component
 {
     public $donations;
+    public $current = 'all';
 
     public function mount()
     {
         $this->donations = Donation::all();
+    }
 
-        dd($this->donations);
+    public function filterCompleted()
+    {
+        $this->donations =  Donation::where('completed', true)->latest()->get();
+    }
+
+    public function filterUncompleted()
+    {
+        $this->donations =  Donation::where('completed', false)->latest()->get();
+    }
+
+    public function filterAll()
+    {
+        $this->donations =  Donation::latest()->get();
     }
 
     public function render()
