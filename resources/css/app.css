@@ -1,3 +1,11 @@
+*{
+    @apply text-[15px];
+}
+
+.navmenu li a, .navmenu li .btn{
+    @apply block w-full px-5 py-2 rounded hover:bg-zinc-200 text-sm text-left;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

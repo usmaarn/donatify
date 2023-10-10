@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->noActionOnDelete();
             $table->string('title');
-            $table->string('description');
-            $table->longText('full_description')->nullable();
+            $table->string('summary');
+            $table->longText('description');
             $table->string('thumbnail');
-            $table->string('target');
-            $table->string('type');
-            $table->mediumInteger('realised');
-            $table->string('deadline');
+            $table->string('target')->nullable();
+            $table->mediumInteger('realised')->default(0);
+            $table->boolean('completed')->default(false);
             $table->timestamps();
         });
     }

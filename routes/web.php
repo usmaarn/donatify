@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,11 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::get('/', \App\Livewire\Home::class)->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/donations/create', \App\Livewire\Donation\Create::class)->name('donations.create');
+    Route::get('/donations', \App\Livewire\Donation\Index::class)->name('donations.all');
+
+    Route::post('/logout', function (\Illuminate\Http\Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
+    })->name('logout');
+});
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
