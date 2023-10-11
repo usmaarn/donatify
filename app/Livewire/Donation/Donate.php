@@ -3,21 +3,29 @@
 namespace App\Livewire\Donation;
 
 use App\Models\Donation;
+use App\Models\Transaction;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class Donate extends Component
 {
 
     public $donation;
+
+    #[Rule('required|numeric|min:1')]
     public $amount;
+    #[Rule('required|email')]
     public $email;
+    #[Rule('nullable|string')]
+    public $name;
     public $reference_id;
 
 
     #[On('donate')]
     public function donate()
     {
+        $this->validate();
         $ref = 'DTY-' .bin2hex(random_bytes(10));
         $this->dispatch('pay', [
            'ref' => $ref,
@@ -40,13 +48,26 @@ class Donate extends Component
             ->get("https://api.paystack.co/transaction/verify/$ref");
         $res = $response->object()->data;
 
-        $this->donation->realised += $res->amount/100;
-        $this->donation->save();
+        if ($res->status === 'success') {
+            $this->donation->realised += $res->amount/100;
+            $this->donation->save();
 
-        $this->donation->completed = $this->donation->realised >= $this->donation->target;
-        $this->donation->save();
+            $this->donation->completed = $this->donation->realised >= $this->donation->target;
+            $this->donation->save();
 
-        return redirect(route('donations.all'));
+            $this->donation->transactions()->create([
+                'user_id' => auth()->id() ? auth()->id() : null,
+                'donation_id' => $this->donation->id,
+                'donor' =>  $this->name ?? 'Anonymous',
+                'email' => $this->email ?? null,
+                'amount' => $res->amount/100,
+                'ref' => $res->reference
+            ]);
+
+            return redirect(route('donations.all'));
+        }
+
+        $this->addError('payment_error', "Payment Not Successful..");
     }
 
     public function render()

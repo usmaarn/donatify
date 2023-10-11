@@ -9,7 +9,9 @@ class Donation extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id', 'title', 'summary', 'description', 'thumbnail', 'target', 'realised', 'completed'
+    ];
 
     public function user()
     {
@@ -18,5 +20,10 @@ class Donation extends Model
 
     public function thumbnail(){
         return '/' . str_replace('public', 'storage', $this->thumbnail);
+    }
+
+    public function transactions()
+    {
+        return $this->belongsTo(Transaction::class);
     }
 }

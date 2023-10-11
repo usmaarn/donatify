@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('donations', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
-            $table->string('title');
-            $table->string('summary');
-            $table->longText('description');
-            $table->string('thumbnail');
-            $table->string('target')->nullable();
-            $table->mediumInteger('realised')->default(0);
-            $table->boolean('completed')->default(false);
+            $table->string('donor')->default('Anonymous');
+            $table->string('email')->nullable();
+            $table->integer('amount');
+            $table->foreignId('donation_id')->references('id')->on('donations');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('donations');
+        Schema::dropIfExists('transactions');
     }
 };

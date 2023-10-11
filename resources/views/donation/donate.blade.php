@@ -10,19 +10,24 @@
     </div>
 
     <div class="space-y-5" id="paymentForm">
+
+        @error('payment_error') <span class="text-red-500">{{ $message }}</span>  @enderror
+
+        <div class="grid grid-cols-2 gap-5">
+            <x-form.input type="text" id="name" label="Name" wire:model="name" />
+            <x-form.input type="email" id="email" label="Email Address" wire:model="email" />
+        </div>
+
         <div>
-            <label for="amount" class="block font-bold capitalize">Enter your donation</label>
+            <label for="amount" class="block font-bold capitalize">Enter Amount</label>
             <input type="number" value="1000.00" wire:model="amount"
                    class="text-4xl font-bold rounded-xl border-zinc-300 w-full text-right py-3 px-5">
+            @error('amount') <span class="text-red-500">{{$message}}</span>  @enderror
         </div>
 
-        <hr class="border-zinc-300">
-
-        <div class="">
-            <label for="amount" class="block font-bold capitalize">payment method</label>
-        </div>
-
-        <button wire:click="dispatch('donate')">Pay Now</button>
+        <button wire:click="dispatch('donate')" class="p-4 bg-green-500 text-center w-full rounded-xl uppercase">
+            Donate
+        </button>
 
 
     </div>
