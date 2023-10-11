@@ -51,7 +51,7 @@
                                     ${{number_format($donation->target)}}
                                 </p>
                                 <p class="font-semibold text-zinc-500 capitalize">
-                                    - <span class="ml-1">1,600 donations</span>
+                                    - <span class="ml-1">{{ $donation->transactions->count() }} donations</span>
                                 </p>
                             </div>
                         </div>
