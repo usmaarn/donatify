@@ -17,8 +17,9 @@
                 </button>
                 <ul class="navmenu absolute top-full right-0 shadow bg-white min-w-[200px] border"
                     x-show="open" @click.outside="open = false">
-                    <li><a href="#">My Donations</a></li>
-                    <li><a href="#">Created Donations</a></li>
+                    <li><a href="{{ route('dashboard') }}">My Campaigns</a></li>
+                    <li><a href="{{ route('dashboard') }}">My Donations</a></li>
+                    <li><a href="{{ route('donations.create') }}">Create Campaign</a></li>
                     <hr/>
                     <li><a href="#">Profile</a></li>
                     <li><x-logout class="btn">Logout</x-logout></li>
