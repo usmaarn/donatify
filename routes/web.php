@@ -14,8 +14,7 @@ use App\Livewire\Dashboard;
 |
 */
 
-Route::get('/', \App\Livewire\Home::class)->name('home');
-Route::get('/donations', \App\Livewire\Donation\Index::class)->name('donations.all');
+Route::get('/', \App\Livewire\Donation\Index::class)->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', Dashboard::class)->name('dashboard');

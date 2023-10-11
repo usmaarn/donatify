@@ -3,10 +3,6 @@
     <div class="wrapper w-full max-w-6xl mx-auto flex items-center justify-between gap-5">
         <a href="/" class="font-bold text-lg">Donatify</a>
 
-        <ul class="flex items-center gap-5 font-medium">
-            <li><a href="{{route('donations.all')}}">Donate</a></li>
-            <li><a href="{{ route('donations.create') }}">Start Campaign</a></li>
-        </ul>
 
         @guest()
             <div class="flex items-center gap-3">
