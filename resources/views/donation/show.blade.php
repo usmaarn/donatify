@@ -17,13 +17,20 @@
         </div>
     @endif
 
-    <div class="">
+    <div class="bg-zinc-50 shadow p-5 mb-20">
 
-        <h1>Donors</h1>
+        <h1 class="text-xl font-bold">Donors</h1>
 
-        <div class="">
-
-        </div>
+        <ul class="space-y-3 mt-5">
+            @forelse($donation->transactions as $transaction)
+                <li class="flex gap-2 py-3 border-y ">
+                    <span class="font-bold">{{$transaction->donor}}</span>
+                   donated <p>${{ number_format($transaction->amount) }}</p>
+                </li>
+            @empty
+                <li class="">No Donors yet, be the first to donate to this course</li>
+            @endforelse
+        </ul>
     </div>
 
 </div>

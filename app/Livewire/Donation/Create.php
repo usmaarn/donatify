@@ -28,17 +28,15 @@ class Create extends Component
     {
         $this->validate();
 
-        $donation = new Donation();
-        $donation->title = $this->title;
-        $donation->summary = $this->summary;
-        $donation->description = $this->description;
-        $donation->target = $this->target;
-        $donation->user_id = auth()->id();
-        $donation->thumbnail = $this->thumbnail->storeAs('public/thumbnails', str_replace(' ', '_', $this->title) . '.png');
+        auth()->user()->donations()->create([
+           'title' => $this->title,
+           'summary' => $this->summary,
+           'description' => $this->description,
+           'target' => $this->target,
+           'thumbnail' => $this->thumbnail->storeAs('public/thumbnails', str_replace(' ', '_', $this->title) . '.png')
+        ]);
 
-        $donation->save();
-
-        return redirect(route('donations.all'));
+        return redirect(route('dashboard'));
     }
 
     public function render()

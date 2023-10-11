@@ -57,7 +57,6 @@ class Donate extends Component
 
             $this->donation->transactions()->create([
                 'user_id' => auth()->id() ? auth()->id() : null,
-                'donation_id' => $this->donation->id,
                 'donor' =>  $this->name ?? 'Anonymous',
                 'email' => $this->email ?? null,
                 'amount' => $res->amount/100,

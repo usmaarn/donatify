@@ -48,7 +48,7 @@
                             @this.dispatchSelf('verifyPayment', {'ref': response.reference})
                         },
                         onClose: function() {
-                            @this.dispatchSelf('verifyPayment', {'ref': 'response.reference'})
+                            @this.dispatchSelf('paymentCanceled')
                         },
                     });
 
