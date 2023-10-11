@@ -1,0 +1,79 @@
+version: "3.9"
+
+services:
+
+  # Database Setup
+  db:
+    image: mysql:8.0.34
+    container_name: db
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - SERVICE_TAGS=dev
+      - SERVICE_NAME=mysql
+
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+        - app-network
+
+    #Php Service
+  app:
+      build:
+        context: .
+        target: php
+        args:
+            - APP_ENV=${APP_ENV}
+      container_name: app
+      environment:
+          - APP_ENV=${APP_ENV}
+          - CONTAINER_ROLE=app
+      working_dir: /var/www
+      volumes:
+          - ./:/var/www
+      ports:
+          -   8000:8000
+      depends_on:
+          - db
+          - nginx
+      networks:
+          - app-network
+
+  #Nginx Service
+  nginx:
+      image: nginx:alpine
+      container_name: nginx
+      restart: unless-stopped
+      tty: true
+      ports:
+          - "80:80"
+          - "443:443"
+      volumes:
+          - ./:/var/www/
+          - ./nginx/conf.d/:/etc/nginx/conf.d/
+      networks:
+          - app-network
+
+  node:
+      build:
+          context: .
+      container_name: node
+      volumes:
+          - .:/usr/src
+          - ./node_modules:/usr/src/node_modules
+      tty: true
+      networks:
+          - app-network
+
+
+volumes:
+  db-data: ~
+
+#Docker Networks
+networks:
+    app-network:
+        driver: bridge
